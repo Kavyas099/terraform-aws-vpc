@@ -138,6 +138,13 @@ resource "aws_route" "private" {
   route_table_id = aws_route_table.private_route.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_nat_gateway.example.id
+  lifecycle {
+    ignore_changes = [
+      gateway_id,
+      nat_gateway_id
+    ]
+  }
+
 }
 
 
@@ -146,6 +153,13 @@ resource "aws_route" "database" {
   route_table_id = aws_route_table.database_route.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_nat_gateway.example.id
+  lifecycle {
+    ignore_changes = [
+      gateway_id,
+      nat_gateway_id
+    ]
+  }
+
 }
 
 
