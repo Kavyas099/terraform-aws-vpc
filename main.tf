@@ -2,9 +2,9 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   enable_dns_hostnames = var.enable_dns_hostnames
   instance_tenancy = "default"
-lifecycle {
-    prevent_destroy = true
-  }
+# lifecycle {
+#     prevent_destroy = true
+#   }
   tags = merge (
     var.common_tags,
     var.vpc_tags,
@@ -131,19 +131,19 @@ resource "aws_route_table" "database_route" {
 resource "aws_route" "public" {
   route_table_id            = aws_route_table.public_route.id
   destination_cidr_block    = "0.0.0.0/0"
-  gateway_id = aws_internet_gateway.igw.id
+  nat_gateway_id = aws_internet_gateway.igw.id
 }
 
 resource "aws_route" "private" {
   route_table_id = aws_route_table.private_route.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = aws_nat_gateway.example.id
+  nat_gateway_id = aws_nat_gateway.example.id
 }
 
 resource "aws_route" "database" {
   route_table_id = aws_route_table.database_route.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = aws_nat_gateway.example.id
+  nat_gateway_id = aws_nat_gateway.example.id
 }
 
 
